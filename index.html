@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Enchanted Forest Adventure</title>
+    <style>
+        /* Basic body styling */
+        body {
+            background-color: #2e1a47;
+            color: #e0c3fc;
+            font-family: 'Georgia', serif;
+            text-align: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6); /* Translucent background for readability */
+            border-radius: 10px;
+        }
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5em;
+            color: #ffe600;
+            text-shadow: 1px 1px 10px #ffe600;
+        }
+        /* Button Styling */
+        button {
+            background-color: #6a4c93;
+            color: white;
+            padding: 10px;
+            border: none;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            background-color: #9b6ac8;
+        }
+        /* Modal styling for help and summary */
+        .modal {
+            display: none;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 400px;
+            margin: auto;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Enchanted Forest Adventure</h1>
+        <p id="storyText">You find yourself standing at the edge of a mysterious forest...</p>
+        <div id="options"></div>
+        <button id="helpButton" onclick="openHelp()">Help</button>
+        <button id="stopButton" onclick="stopStory()">Stop</button>
+        <button id="summaryButton" onclick="showSummary()">View Journey Summary</button>
+    </div>
+    <div id="helpModal" class="modal">
+        <p>Welcome to the Enchanted Forest Adventure!</p>
+        <p>Choose options to progress the story. Type "stop" anytime to end the journey. Enjoy exploring!</p>
+        <button onclick="closeHelp()">Close</button>
+    </div>
+    <div id="summaryModal" class="modal">
+        <p>Your Journey Summary:</p>
+        <ul id="journeyList"></ul>
+        <button onclick="closeSummary()">Close</button>
+    </div>
+    <script>
+        // JavaScript Code for Story Functionality with Background Images
+        // Story data with modular structure and corresponding background images
+        const storyParts = {
+            start: {
+                text: "You find yourself standing at the edge of a mysterious forest...",
+                options: [
+                    { text: "Follow the sound of the brook.", next: "brook" },
+                    { text: "Follow the glowing footprints.", next: "footprints" }
+                ],
+                background: "url('images/forest_entrance.jpg')" // Forest entrance background
+            },
+            brook: {
+                text: "You decide to follow the sound of the brook...",
+                options: [
+                    { text: "Reach in and grab the shiny object.", next: "gem" },
+                    { text: "Continue along the path.", next: "path" }
+                ],
+                background: "url('images/stream.jpg')" // Brook background
+            },
+            footprints: {
+                text: "You decide to follow the glowing footprints...",
+                options: [
+                    { text: "Open the door and go inside.", next: "insideTree" },
+                    { text: "Explore the clearing further.", next: "clearing" }
+                ],
+                background: "url('images/footprint_trail.jpg')" // Glowing footprints background
+            },
+            gem: {
+                text: "You reach into the stream and pull out a beautiful, sparkling gem...",
+                options: [
+                    { text: "Keep the gem and continue along the path.", next: "continuePath" },
+                    { text: "Throw the gem back into the stream.", next: "backStream" }
+                ],
+                background: "url('images/gem.jpg')" // Gem in stream background
+            },
+            insideTree: {
+                text: "You open the door and step inside the tree...",
+                options: [
+                    { text: "Take the map.", next: "map" },
+                    { text: "Take the magical potion.", next: "potion" }
+                ],
+                background: "url('images/gnome_house.jpg')" // Inside the tree with gnome
+            },
+            // Add additional story parts as needed
+        };
+
+        // Track journey choices
+        const journey = [];
+
+        // Function to display a specific story part
+        function displayStoryPart(part) {
+            const storyText = document.getElementById("storyText");
+            const optionsDiv = document.getElementById("options");
+            const body = document.body;
+
+            // Set the background for the current story part
+            body.style.backgroundImage = storyParts[part].background;
+            journey.push(storyParts[part].text);
+            storyText.textContent = storyParts[part].text;
+            optionsDiv.innerHTML = "";
+
+            storyParts[part].options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option.text;
+                button.addEventListener("click", () => displayStoryPart(option.next));
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        // Initial story part
+        displayStoryPart("start");
+
+        // Stop story function
+        function stopStory() {
+            document.getElementById("storyText").textContent = "Thank you for playing! Your adventure in the Enchanted Forest will be waiting for you whenever you're ready to return.";
+            document.getElementById("options").innerHTML = "";
+            journey.push("User ended the story.");
+        }
+
+        // Help modal function
+        function openHelp() {
+            document.getElementById("helpModal").style.display = "block";
+        }
+
+        function closeHelp() {
+            document.getElementById("helpModal").style.display = "none";
+        }
+
+        // Summary modal function
+        function showSummary() {
+            const journeyList = document.getElementById("journeyList");
+            journeyList.innerHTML = "";
+            journey.forEach((step, index) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${index + 1}: ${step}`;
+                journeyList.appendChild(listItem);
+            });
+            document.getElementById("summaryModal").style.display = "block";
+        }
+
+        function closeSummary() {
+            document.getElementById("summaryModal").style.display = "none";
+        }
+    </script>
+</body>
+</html>
