@@ -1,81 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Enchanted Forest Adventure</title>
-    <style>
-        /* Basic body styling */
-        body {
-            background-color: #2e1a47;
-            color: #e0c3fc;
-            font-family: 'Georgia', serif;
-            text-align: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.6); /* Translucent background for readability */
-            border-radius: 10px;
-        }
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5em;
-            color: #ffe600;
-            text-shadow: 1px 1px 10px #ffe600;
-        }
-        /* Button Styling */
-        button {
-            background-color: #6a4c93;
-            color: white;
-            padding: 10px;
-            border: none;
-            margin-top: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: transform 0.2s;
-        }
-        button:hover {
-            transform: scale(1.05);
-            background-color: #9b6ac8;
-        }
-        /* Modal styling for help and summary */
-        .modal {
-            display: none;
-            background-color: #333;
-            color: white;
-            padding: 20px;
-            border-radius: 5px;
-            max-width: 400px;
-            margin: auto;
-            text-align: left;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>The Enchanted Forest Adventure</h1>
-        <p id="storyText">You find yourself standing at the edge of a mysterious forest...</p>
-        <div id="options"></div>
-        <button id="helpButton" onclick="openHelp()">Help</button>
-        <button id="stopButton" onclick="stopStory()">Stop</button>
-        <button id="summaryButton" onclick="showSummary()">View Journey Summary</button>
+    <div class = "container">
+        <div class="child">
+            <h1>The Enchanted Forest Adventure</h1>
+            <p id="storyText">You find yourself standing at the edge of a mysterious forest...</p>
+            <div id="options"></div>
+            <button id="helpButton" onclick="openHelp()">Help</button>
+            <button id="stopButton" onclick="stopStory()">Stop</button>
+            <button id="summaryButton" onclick="showSummary()">View Journey Summary</button>
+        </div>
+        <div id="helpModal" class="modal">
+            <p>Welcome to the Enchanted Forest Adventure!</p>
+            <p>Choose options to progress the story. Type "stop" anytime to end the journey. Enjoy exploring!</p>
+            <button onclick="closeHelp()">Close</button>
+        </div>
+        <div id="summaryModal" class="modal">
+            <p>Your Journey Summary:</p>
+            <ul id="journeyList"></ul>
+            <button onclick="closeSummary()">Close</button>
+        </div>
     </div>
-    <div id="helpModal" class="modal">
-        <p>Welcome to the Enchanted Forest Adventure!</p>
-        <p>Choose options to progress the story. Type "stop" anytime to end the journey. Enjoy exploring!</p>
-        <button onclick="closeHelp()">Close</button>
-    </div>
-    <div id="summaryModal" class="modal">
-        <p>Your Journey Summary:</p>
-        <ul id="journeyList"></ul>
-        <button onclick="closeSummary()">Close</button>
-    </div>
+    
     <script>
         // JavaScript Code for Story Functionality with Background Images
         // Story data with modular structure and corresponding background images
